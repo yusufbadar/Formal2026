@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>A Little Surprise · For Rashna</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Pacifico&family=Parisienne&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --sunset-1:#ff9966;
+    --sunset-2:#ff5e7e;
+    --sunset-3:#9c4a8a;
+    --sunset-4:#3d2a59;
+    --sand:#f8e3c4;
+    --teal:#19a1a1;
+    --teal-dark:#0d6e74;
+    --gold:#f6c453;
+    --hibiscus:#ff3d6e;
+    --leaf:#2f8f5b;
+    --leaf-dark:#1a5c3a;
+    --ink:#2a1840;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Quicksand', sans-serif;
+    color: var(--ink);
+    background: #1a0d2b;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ====== Shared sunset sky ====== */
+  .sky {
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(1200px 600px at 50% 95%, #ffd28a 0%, transparent 60%),
+      linear-gradient(180deg,
+        #2c1855 0%,
+        #5a2670 18%,
+        #9c4a8a 38%,
+        #ff5e7e 60%,
+        #ff9966 80%,
+        #ffd28a 100%);
+    z-index: -3;
+  }
+  .stars {
+    position: fixed; inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 20% 12%, #fff7d6 50%, transparent 100%),
+      radial-gradient(1px 1px at 80% 8%, #ffe7a8 50%, transparent 100%),
+      radial-gradient(1.2px 1.2px at 35% 22%, #fff 50%, transparent 100%),
+      radial-gradient(1px 1px at 60% 18%, #fff 50%, transparent 100%),
+      radial-gradient(1px 1px at 12% 30%, #fff 50%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 90% 25%, #fff 50%, transparent 100%);
+    opacity: .55;
+    z-index: -2;
+    animation: twinkle 4s ease-in-out infinite;
+  }
+  @keyframes twinkle { 0%,100%{opacity:.4} 50%{opacity:.8} }
+
+  .sun {
+    position: fixed;
+    bottom: -120px; left: 50%;
+    transform: translateX(-50%);
+    width: 360px; height: 360px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 40%, #fff2c0, #ffc26b 45%, #ff7e5f 75%, transparent 80%);
+    filter: blur(2px);
+    z-index: -2;
+    animation: sunPulse 6s ease-in-out infinite;
+  }
+  @keyframes sunPulse {
+    0%,100% { transform: translateX(-50%) scale(1); opacity: .9; }
+    50% { transform: translateX(-50%) scale(1.04); opacity: 1; }
+  }
+
+  /* ocean line */
+  .ocean {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    height: 28%;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.15) 0%, transparent 30%),
+      linear-gradient(180deg, #2dbcc9 0%, #0d6e74 60%, #0a3a52 100%);
+    z-index: -2;
+    overflow: hidden;
+  }
+  .ocean::before, .ocean::after {
+    content:""; position:absolute; left:-50%; right:-50%;
+    height: 14px; top: 0;
+    background: repeating-linear-gradient(90deg, transparent 0 24px, rgba(255,255,255,.45) 24px 30px, transparent 30px 60px);
+    border-radius: 50%;
+    opacity:.6;
+    animation: waves 7s linear infinite;
+  }
+  .ocean::after { top: 22px; opacity:.35; animation-duration: 11s; animation-direction: reverse; }
+  @keyframes waves { from { transform: translateX(0);} to { transform: translateX(60px);} }
+
+  /* sand */
+  .sand {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    height: 8%;
+    background: linear-gradient(180deg, #ffd99c 0%, #d49a5b 100%);
+    z-index: -1;
+    box-shadow: 0 -10px 30px rgba(0,0,0,.15) inset;
+  }
+
+  /* palms */
+  .palm {
+    position: fixed; bottom: 5%;
+    width: 180px; height: 260px;
+    z-index: 0;
+    pointer-events: none;
+    transform-origin: bottom center;
+    animation: sway 6s ease-in-out infinite;
+  }
+  .palm.left { left: -10px; }
+  .palm.right { right: -10px; transform: scaleX(-1); animation-delay: -3s; }
+  @keyframes sway {
+    0%,100% { transform: rotate(-2deg); }
+    50% { transform: rotate(2deg); }
+  }
+  .palm.right { animation-name: swayR; }
+  @keyframes swayR {
+    0%,100% { transform: scaleX(-1) rotate(-2deg); }
+    50% { transform: scaleX(-1) rotate(2deg); }
+  }
+
+  /* floating petals */
+  .petal {
+    position: fixed; top: -20px;
+    width: 18px; height: 18px;
+    background: radial-gradient(circle at 30% 30%, #fff, var(--hibiscus) 60%, #b22050);
+    border-radius: 50% 0 50% 50%;
+    transform: rotate(45deg);
+    opacity:.85;
+    pointer-events: none;
+    z-index: 1;
+    animation: fall linear infinite;
+  }
+  @keyframes fall {
+    0%   { transform: translateY(-20px) rotate(0deg); opacity: 0; }
+    10%  { opacity: .9; }
+    100% { transform: translateY(110vh) rotate(540deg); opacity: 0; }
+  }
+
+  /* ====== Stage system ====== */
+  .stage {
+    position: fixed; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .8s ease;
+  }
+  .stage.active { opacity: 1; pointer-events: auto; }
+
+  /* ====== Stage 1: Intro envelope ====== */
+  #stage-intro .card {
+    text-align: center;
+    color: #fff7e9;
+    text-shadow: 0 4px 30px rgba(0,0,0,.35);
+    max-width: 640px;
+  }
+  .eyebrow {
+    font-family: 'Quicksand', sans-serif;
+    letter-spacing: .5em;
+    font-size: 12px;
+    text-transform: uppercase;
+    opacity: .8;
+    margin-bottom: 18px;
+  }
+  .title-script {
+    font-family: 'Parisienne', cursive;
+    font-size: clamp(54px, 9vw, 110px);
+    line-height: 1;
+    color: #fff;
+    text-shadow: 0 2px 0 #c75e87, 0 8px 30px rgba(0,0,0,.35);
+  }
+  .title-serif {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(20px, 2.5vw, 28px);
+    margin-top: 18px;
+    opacity: .95;
+  }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    margin-top: 38px;
+    padding: 16px 34px;
+    background: linear-gradient(135deg, #fff 0%, #ffe7c8 100%);
+    color: #8a2a52;
+    border: none; border-radius: 999px;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700; font-size: 15px;
+    letter-spacing: .15em; text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 12px 40px rgba(0,0,0,.25), 0 0 0 6px rgba(255,255,255,.12);
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
+  .btn:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 18px 50px rgba(0,0,0,.3), 0 0 0 8px rgba(255,255,255,.18);
+  }
+  .btn .heart {
+    color: var(--hibiscus);
+    animation: beat 1.2s ease-in-out infinite;
+  }
+  @keyframes beat { 0%,100% { transform: scale(1);} 50% { transform: scale(1.25);} }
+
+  .envelope {
+    width: clamp(220px, 30vw, 300px);
+    aspect-ratio: 7/5;
+    margin: 0 auto 28px;
+    position: relative;
+    perspective: 800px;
+  }
+  .env-body {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, #fff5e1, #ffe2c2);
+    border-radius: 8px;
+    box-shadow: 0 30px 70px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.6);
+  }
+  .env-flap {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, #ffd28a, #ff9966);
+    clip-path: polygon(0 0, 100% 0, 50% 65%);
+    transform-origin: top;
+    transition: transform 1.2s cubic-bezier(.7,-.2,.3,1.4);
+    box-shadow: inset 0 -4px 12px rgba(0,0,0,.1);
+  }
+  .env-seal {
+    position: absolute; left: 50%; top: 55%;
+    transform: translate(-50%, -50%);
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #ff708d, #b8264c 80%);
+    box-shadow: 0 6px 14px rgba(0,0,0,.25), inset 0 -4px 8px rgba(0,0,0,.2);
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-family: 'Parisienne', cursive; font-size: 28px;
+    z-index: 3;
+    transition: transform .8s ease, opacity .4s ease;
+  }
+  .envelope.open .env-flap { transform: rotateX(180deg); }
+  .envelope.open .env-seal { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+
+  /* ====== Stage 2: Game ====== */
+  #stage-game .game-wrap {
+    position: relative;
+    width: min(440px, 92vw);
+    height: min(640px, 85vh);
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0,0,0,.45), inset 0 0 0 2px rgba(255,255,255,.18);
+    background: linear-gradient(180deg, #4a1f6e 0%, #ff5e7e 55%, #ffc26b 85%, #2dbcc9 100%);
+  }
+  #gameCanvas {
+    display: block;
+    width: 100%; height: 100%;
+    touch-action: manipulation;
+    cursor: pointer;
+  }
+  .game-hud {
+    position: absolute; top: 0; left: 0; right: 0;
+    padding: 14px 18px;
+    display: flex; justify-content: space-between; align-items: center;
+    color: #fff;
+    font-family: 'Quicksand', sans-serif;
+    text-shadow: 0 2px 6px rgba(0,0,0,.35);
+    pointer-events: none;
+    z-index: 5;
+  }
+  .game-hud .label { font-size: 11px; letter-spacing: .3em; text-transform: uppercase; opacity: .9; }
+  .game-hud .score { font-family: 'Pacifico', cursive; font-size: 38px; line-height: 1; }
+  .game-hud .goal { font-size: 13px; opacity: .9; margin-top: 2px; }
+  .progress {
+    position: absolute; left: 18px; right: 18px; bottom: 14px;
+    height: 8px; background: rgba(255,255,255,.25);
+    border-radius: 999px; overflow: hidden;
+    backdrop-filter: blur(4px);
+    z-index: 5;
+  }
+  .progress > div {
+    height: 100%; width: 0%;
+    background: linear-gradient(90deg, var(--gold), #fff);
+    border-radius: 999px;
+    transition: width .35s ease;
+    box-shadow: 0 0 10px rgba(255,255,255,.6);
+  }
+
+  .game-overlay {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center;
+    color: #fff;
+    background: rgba(20, 8, 40, .55);
+    backdrop-filter: blur(6px);
+    padding: 24px;
+    transition: opacity .35s ease;
+    z-index: 6;
+  }
+  .game-overlay.hidden { opacity: 0; pointer-events: none; }
+  .game-overlay h2 {
+    font-family: 'Pacifico', cursive;
+    font-size: 38px;
+    margin-bottom: 8px;
+    color: #ffe7a8;
+    text-shadow: 0 4px 18px rgba(0,0,0,.4);
+  }
+  .game-overlay p {
+    font-size: 15px;
+    max-width: 320px;
+    line-height: 1.5;
+    opacity: .92;
+    margin-bottom: 22px;
+  }
+  .game-overlay .btn {
+    margin-top: 6px;
+    background: linear-gradient(135deg, var(--gold), #ff9966);
+    color: #4a1f1f;
+  }
+  .key-hint {
+    margin-top: 16px;
+    font-size: 12px; letter-spacing: .25em; text-transform: uppercase;
+    opacity: .8;
+  }
+
+  .game-title-tag {
+    position: absolute; top: -52px; left: 50%; transform: translateX(-50%);
+    font-family: 'Parisienne', cursive;
+    color: #fff;
+    font-size: 28px;
+    text-shadow: 0 4px 18px rgba(0,0,0,.4);
+    white-space: nowrap;
+  }
+
+  /* ====== Stage 3: Reveal / Form ====== */
+  #stage-reveal .reveal-wrap {
+    width: min(720px, 94vw);
+    background: linear-gradient(180deg, rgba(255, 247, 233, .96), rgba(255, 233, 209, .96));
+    border-radius: 26px;
+    padding: 48px 40px 40px;
+    box-shadow:
+      0 40px 100px rgba(0,0,0,.45),
+      inset 0 0 0 1px rgba(255,255,255,.6),
+      0 0 0 10px rgba(255,255,255,.08);
+    position: relative;
+    text-align: center;
+    color: var(--ink);
+    transform: scale(.92);
+    opacity: 0;
+    transition: transform .9s cubic-bezier(.2,.7,.2,1), opacity .9s ease;
+  }
+  #stage-reveal.active .reveal-wrap {
+    transform: scale(1);
+    opacity: 1;
+  }
+  .reveal-tag {
+    font-family: 'Quicksand', sans-serif;
+    letter-spacing: .5em; text-transform: uppercase;
+    font-size: 11px; color: #b8264c;
+    margin-bottom: 8px;
+  }
+  .reveal-title {
+    font-family: 'Parisienne', cursive;
+    font-size: clamp(46px, 7vw, 78px);
+    line-height: 1;
+    color: #8a2a52;
+    margin-bottom: 8px;
+  }
+  .reveal-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(18px, 2.4vw, 24px);
+    color: #5a2670;
+    margin-bottom: 28px;
+  }
+  .ornament {
+    display:flex; align-items:center; justify-content:center; gap:14px;
+    color:#c2497a; font-size: 14px;
+    margin: 8px 0 22px;
+  }
+  .ornament .line {
+    width: 50px; height: 1px;
+    background: linear-gradient(90deg, transparent, #c2497a, transparent);
+  }
+  .details {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin: 8px 0 28px;
+  }
+  .detail {
+    padding: 14px 10px;
+    background: rgba(255,255,255,.55);
+    border: 1px solid rgba(184, 38, 76, .15);
+    border-radius: 14px;
+  }
+  .detail .icon { font-size: 24px; margin-bottom: 6px; }
+  .detail .k {
+    font-size: 10px; letter-spacing: .25em; text-transform: uppercase;
+    color: #b8264c; margin-bottom: 4px;
+  }
+  .detail .v {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px; font-weight: 600;
+    color: var(--ink);
+  }
+  .question {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(20px, 3vw, 28px);
+    color: #2a1840;
+    margin: 6px 0 22px;
+  }
+  .answer-row {
+    display: flex; gap: 16px; justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn-yes, .btn-no {
+    padding: 16px 38px;
+    border-radius: 999px;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700; font-size: 14px;
+    letter-spacing: .2em; text-transform: uppercase;
+    cursor: pointer; border: none;
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
+  .btn-yes {
+    background: linear-gradient(135deg, #ff5e7e, #b8264c);
+    color: #fff;
+    box-shadow: 0 14px 36px rgba(184, 38, 76, .45);
+  }
+  .btn-yes:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 22px 50px rgba(184, 38, 76, .5);
+  }
+  .btn-no {
+    background: rgba(0,0,0,.05);
+    color: #6a4a6a;
+    border: 1px solid rgba(0,0,0,.08);
+    position: relative;
+    transition: transform .35s cubic-bezier(.2,.8,.2,1);
+  }
+  .signature {
+    margin-top: 26px;
+    font-family: 'Parisienne', cursive;
+    color: #8a2a52;
+    font-size: 22px;
+    opacity: .85;
+  }
+
+  /* Hibiscus corner accents */
+  .hibiscus-deco {
+    position: absolute; width: 80px; height: 80px;
+    pointer-events: none;
+  }
+  .hibiscus-deco.tl { top: -22px; left: -22px; transform: rotate(-25deg); }
+  .hibiscus-deco.br { bottom: -22px; right: -22px; transform: rotate(160deg); }
+
+  /* ====== Yes overlay ====== */
+  #yesOverlay {
+    position: fixed; inset: 0;
+    background: radial-gradient(circle at 50% 40%, rgba(255, 196, 138, .35), rgba(20, 8, 40, .85));
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    color: #fff;
+    z-index: 50;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .6s ease;
+  }
+  #yesOverlay.active { opacity: 1; pointer-events: auto; }
+  #yesOverlay h1 {
+    font-family: 'Parisienne', cursive;
+    font-size: clamp(60px, 12vw, 140px);
+    color: #fff;
+    text-shadow: 0 4px 30px rgba(0,0,0,.35);
+    margin-bottom: 6px;
+  }
+  #yesOverlay p {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(18px, 2.4vw, 26px);
+    opacity: .95;
+    max-width: 520px;
+  }
+
+  /* small screens */
+  @media (max-width: 520px) {
+    .palm { width: 130px; height: 200px; }
+    #stage-reveal .reveal-wrap { padding: 40px 22px 30px; }
+    .details { grid-template-columns: 1fr; }
+  }
+
+  .footer-credit {
+    position: fixed; bottom: 8px; left: 0; right: 0;
+    text-align: center;
+    font-size: 10px; letter-spacing: .3em; text-transform: uppercase;
+    color: rgba(255,255,255,.55);
+    z-index: 4;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+
+<div class="sky"></div>
+<div class="stars"></div>
+<div class="sun"></div>
+<div class="ocean"></div>
+<div class="sand"></div>
+
+<!-- Palm SVGs -->
+<svg class="palm left" viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs>
+    <linearGradient id="trunkL" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6b3a1d"/>
+      <stop offset="100%" stop-color="#3b1d0d"/>
+    </linearGradient>
+    <linearGradient id="leafL" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#3fbf6f"/>
+      <stop offset="100%" stop-color="#1a5c3a"/>
+    </linearGradient>
+  </defs>
+  <path d="M95 280 Q 90 170 110 60" stroke="url(#trunkL)" stroke-width="14" fill="none" stroke-linecap="round"/>
+  <g fill="url(#leafL)">
+    <path d="M110 60 Q 50 40 10 70 Q 60 50 110 60Z"/>
+    <path d="M110 60 Q 60 20 30 0 Q 80 30 110 60Z"/>
+    <path d="M110 60 Q 160 30 200 20 Q 150 50 110 60Z"/>
+    <path d="M110 60 Q 170 70 200 110 Q 150 80 110 60Z"/>
+    <path d="M110 60 Q 100 10 90 -10 Q 110 30 110 60Z"/>
+  </g>
+  <circle cx="105" cy="65" r="7" fill="#5b2a14"/>
+  <circle cx="115" cy="62" r="6" fill="#5b2a14"/>
+</svg>
+
+<svg class="palm right" viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs>
+    <linearGradient id="trunkR" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6b3a1d"/>
+      <stop offset="100%" stop-color="#3b1d0d"/>
+    </linearGradient>
+    <linearGradient id="leafR" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#3fbf6f"/>
+      <stop offset="100%" stop-color="#1a5c3a"/>
+    </linearGradient>
+  </defs>
+  <path d="M95 280 Q 90 170 110 60" stroke="url(#trunkR)" stroke-width="14" fill="none" stroke-linecap="round"/>
+  <g fill="url(#leafR)">
+    <path d="M110 60 Q 50 40 10 70 Q 60 50 110 60Z"/>
+    <path d="M110 60 Q 60 20 30 0 Q 80 30 110 60Z"/>
+    <path d="M110 60 Q 160 30 200 20 Q 150 50 110 60Z"/>
+    <path d="M110 60 Q 170 70 200 110 Q 150 80 110 60Z"/>
+    <path d="M110 60 Q 100 10 90 -10 Q 110 30 110 60Z"/>
+  </g>
+  <circle cx="105" cy="65" r="7" fill="#5b2a14"/>
+  <circle cx="115" cy="62" r="6" fill="#5b2a14"/>
+</svg>
+
+<!-- =================== STAGE 1: INTRO =================== -->
+<section id="stage-intro" class="stage active">
+  <div class="card">
+    <div class="envelope" id="envelope">
+      <div class="env-body"></div>
+      <div class="env-flap"></div>
+      <div class="env-seal">R</div>
+    </div>
+    <div class="eyebrow">A Letter For</div>
+    <h1 class="title-script">Rashna&nbsp;Kasaju</h1>
+    <p class="title-serif">There's a question waiting at the end of the shore… <br/>but first, a tiny adventure.</p>
+    <button class="btn" id="openBtn">
+      <span class="heart">❤</span>
+      Open the Invitation
+    </button>
+  </div>
+</section>
+
+<!-- =================== STAGE 2: GAME =================== -->
+<section id="stage-game" class="stage">
+  <div class="game-wrap">
+    <div class="game-title-tag">Fly to the Tiki Bar</div>
+
+    <div class="game-hud">
+      <div>
+        <div class="label">Score</div>
+        <div class="score" id="scoreDisplay">0</div>
+        <div class="goal">Reach 10 to unlock the surprise</div>
+      </div>
+      <div style="text-align:right">
+        <div class="label">Best</div>
+        <div class="score" id="bestDisplay" style="font-size:24px">0</div>
+      </div>
+    </div>
+
+    <canvas id="gameCanvas" width="440" height="640"></canvas>
+
+    <div class="progress"><div id="progressBar"></div></div>
+
+    <div class="game-overlay" id="gameOverlay">
+      <h2 id="overlayTitle">Help the Toucan Reach the Tiki Bar</h2>
+      <p id="overlayText">Tap, click, or press <strong>Space</strong> to flap. Soar through the palm gates and score <strong>10</strong> to unlock Rashna's surprise.</p>
+      <button class="btn" id="startBtn">Start Flying</button>
+      <div class="key-hint">Tap · Click · Space</div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== STAGE 3: REVEAL =================== -->
+<section id="stage-reveal" class="stage">
+  <div class="reveal-wrap">
+    <svg class="hibiscus-deco tl" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <g>
+        <ellipse cx="50" cy="30" rx="18" ry="28" fill="#ff3d6e"/>
+        <ellipse cx="72" cy="45" rx="18" ry="28" fill="#ff5e7e" transform="rotate(60 72 45)"/>
+        <ellipse cx="65" cy="72" rx="18" ry="28" fill="#ff708d" transform="rotate(120 65 72)"/>
+        <ellipse cx="35" cy="72" rx="18" ry="28" fill="#ff5e7e" transform="rotate(-120 35 72)"/>
+        <ellipse cx="28" cy="45" rx="18" ry="28" fill="#ff3d6e" transform="rotate(-60 28 45)"/>
+        <circle cx="50" cy="50" r="9" fill="#f6c453"/>
+        <circle cx="50" cy="50" r="3" fill="#b8264c"/>
+      </g>
+    </svg>
+    <svg class="hibiscus-deco br" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <g>
+        <ellipse cx="50" cy="30" rx="18" ry="28" fill="#ff3d6e"/>
+        <ellipse cx="72" cy="45" rx="18" ry="28" fill="#ff5e7e" transform="rotate(60 72 45)"/>
+        <ellipse cx="65" cy="72" rx="18" ry="28" fill="#ff708d" transform="rotate(120 65 72)"/>
+        <ellipse cx="35" cy="72" rx="18" ry="28" fill="#ff5e7e" transform="rotate(-120 35 72)"/>
+        <ellipse cx="28" cy="45" rx="18" ry="28" fill="#ff3d6e" transform="rotate(-60 28 45)"/>
+        <circle cx="50" cy="50" r="9" fill="#f6c453"/>
+        <circle cx="50" cy="50" r="3" fill="#b8264c"/>
+      </g>
+    </svg>
+
+    <div class="reveal-tag">You unlocked it</div>
+    <h1 class="reveal-title">Rashna,</h1>
+    <p class="reveal-sub">the toucan made it to the tiki bar — and so did this question.</p>
+
+    <div class="ornament">
+      <span class="line"></span>
+      <span>✦</span>
+      <span class="line"></span>
+    </div>
+
+    <p class="question">
+      Will you be my date to <strong>Sigma Chi Formal</strong>?
+    </p>
+
+    <div class="details">
+      <div class="detail">
+        <div class="icon">🌴</div>
+        <div class="k">When</div>
+        <div class="v">Saturday<br/>May 3rd</div>
+      </div>
+      <div class="detail">
+        <div class="icon">🏝️</div>
+        <div class="k">Where</div>
+        <div class="v">The Beach</div>
+      </div>
+      <div class="detail">
+        <div class="icon">🍹</div>
+        <div class="k">Vibe</div>
+        <div class="v">Tiki Bar</div>
+      </div>
+    </div>
+
+    <div class="answer-row">
+      <button class="btn-yes" id="yesBtn">Yes 🌺</button>
+      <button class="btn-no" id="noBtn">No</button>
+    </div>
+
+    <div class="signature">— with all my hopes, ✶</div>
+  </div>
+</section>
+
+<!-- =================== YES OVERLAY =================== -->
+<div id="yesOverlay">
+  <h1>She said yes.</h1>
+  <p>May 3rd · Beach · Tiki Bar 🌺<br/>Get ready for sunsets, leis, and the best night of the year.</p>
+</div>
+
+<div class="footer-credit">made with 🌺 for rashna</div>
+
+<script>
+/* ============================================================
+   Floating petals
+============================================================ */
+(function spawnPetals() {
+  const colors = ['#ff3d6e', '#ff708d', '#ffb74d', '#ffd28a', '#fff'];
+  for (let i = 0; i < 22; i++) {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    const size = 10 + Math.random() * 18;
+    p.style.width = size + 'px';
+    p.style.height = size + 'px';
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.background = `radial-gradient(circle at 30% 30%, #fff, ${colors[i % colors.length]} 60%, #b22050)`;
+    p.style.animationDuration = (8 + Math.random() * 10) + 's';
+    p.style.animationDelay = (-Math.random() * 12) + 's';
+    p.style.opacity = (0.6 + Math.random() * 0.4).toString();
+    document.body.appendChild(p);
+  }
+})();
+
+/* ============================================================
+   Stage manager
+============================================================ */
+const stages = {
+  intro:  document.getElementById('stage-intro'),
+  game:   document.getElementById('stage-game'),
+  reveal: document.getElementById('stage-reveal'),
+};
+function showStage(name) {
+  Object.values(stages).forEach(s => s.classList.remove('active'));
+  stages[name].classList.add('active');
+}
+
+/* ============================================================
+   STAGE 1 -> STAGE 2
+============================================================ */
+const envelope = document.getElementById('envelope');
+const openBtn  = document.getElementById('openBtn');
+
+openBtn.addEventListener('click', () => {
+  envelope.classList.add('open');
+  openBtn.disabled = true;
+  openBtn.style.opacity = '.6';
+  setTimeout(() => {
+    showStage('game');
+    resetGame();
+  }, 1100);
+});
+
+/* ============================================================
+   STAGE 2: Flappy Toucan
+============================================================ */
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+const W = canvas.width;
+const H = canvas.height;
+
+const scoreDisplay = document.getElementById('scoreDisplay');
+const bestDisplay  = document.getElementById('bestDisplay');
+const progressBar  = document.getElementById('progressBar');
+const overlay      = document.getElementById('gameOverlay');
+const overlayTitle = document.getElementById('overlayTitle');
+const overlayText  = document.getElementById('overlayText');
+const startBtn     = document.getElementById('startBtn');
+
+const GOAL = 10;
+const GRAVITY = 0.42;
+const FLAP   = -7.2;
+const PIPE_GAP = 165;
+const PIPE_W   = 70;
+const PIPE_INTERVAL = 95; // frames
+const SPEED = 2.4;
+
+let bird, pipes, frame, score, best, running, started, gameOver;
+let cloudOffset = 0;
+
+best = parseInt(localStorage.getItem('rashna_best') || '0', 10);
+bestDisplay.textContent = best;
+
+function resetGame() {
+  bird = { x: W * 0.28, y: H * 0.45, vy: 0, r: 18, rot: 0, wing: 0 };
+  pipes = [];
+  frame = 0;
+  score = 0;
+  running = false;
+  started = false;
+  gameOver = false;
+  scoreDisplay.textContent = '0';
+  progressBar.style.width = '0%';
+  overlay.classList.remove('hidden');
+  overlayTitle.textContent = 'Help the Toucan Reach the Tiki Bar';
+  overlayText.innerHTML = 'Tap, click, or press <strong>Space</strong> to flap. Soar through the palm gates and score <strong>' + GOAL + '</strong> to unlock Rashna\'s surprise.';
+  startBtn.textContent = 'Start Flying';
+  draw();
+}
+
+function startGame() {
+  overlay.classList.add('hidden');
+  running = true;
+  started = true;
+  gameOver = false;
+  loop();
+}
+
+function flap() {
+  if (gameOver) return;
+  if (!started) {
+    startGame();
+  }
+  bird.vy = FLAP;
+  bird.wing = 1;
+}
+
+function endGame() {
+  running = false;
+  gameOver = true;
+  if (score > best) {
+    best = score;
+    localStorage.setItem('rashna_best', best);
+    bestDisplay.textContent = best;
+  }
+  overlay.classList.remove('hidden');
+  overlayTitle.textContent = score >= GOAL ? "You're a natural!" : 'So close!';
+  overlayText.innerHTML = `You scored <strong>${score}</strong>. ${
+    score >= GOAL
+      ? "But you've already unlocked the surprise — let's go to the beach 🌺"
+      : `Just <strong>${GOAL - score}</strong> more palm gate${GOAL - score === 1 ? '' : 's'} to unlock the surprise. The toucan believes in you.`
+  }`;
+  startBtn.textContent = score >= GOAL ? 'Open the Surprise' : 'Try Again';
+}
+
+startBtn.addEventListener('click', () => {
+  if (score >= GOAL && gameOver) {
+    goToReveal();
+    return;
+  }
+  resetGame();
+  startGame();
+});
+
+// Controls
+canvas.addEventListener('mousedown', flap);
+canvas.addEventListener('touchstart', e => { e.preventDefault(); flap(); }, { passive: false });
+window.addEventListener('keydown', e => {
+  if (stages.game.classList.contains('active') && (e.code === 'Space' || e.code === 'ArrowUp')) {
+    e.preventDefault();
+    flap();
+  }
+});
+
+function spawnPipe() {
+  const margin = 70;
+  const minTop = margin;
+  const maxTop = H - PIPE_GAP - margin - 60; // sand area
+  const top = minTop + Math.random() * (maxTop - minTop);
+  pipes.push({ x: W + 20, top, passed: false });
+}
+
+function update() {
+  frame++;
+  bird.vy += GRAVITY;
+  bird.y += bird.vy;
+  bird.rot = Math.max(-0.5, Math.min(1.2, bird.vy / 12));
+  bird.wing *= 0.85;
+
+  if (frame % PIPE_INTERVAL === 0) spawnPipe();
+
+  for (let i = pipes.length - 1; i >= 0; i--) {
+    const p = pipes[i];
+    p.x -= SPEED;
+    if (!p.passed && p.x + PIPE_W < bird.x - bird.r) {
+      p.passed = true;
+      score++;
+      scoreDisplay.textContent = score;
+      progressBar.style.width = Math.min(100, (score / GOAL) * 100) + '%';
+      flashScore();
+      if (score >= GOAL) {
+        // Auto-progress after a victorious moment
+        running = false;
+        setTimeout(goToReveal, 850);
+        celebrate();
+        return;
+      }
+    }
+    if (p.x + PIPE_W < -10) pipes.splice(i, 1);
+  }
+
+  // collisions
+  const ground = H - 60;
+  if (bird.y + bird.r > ground || bird.y - bird.r < 0) { endGame(); return; }
+  for (const p of pipes) {
+    if (bird.x + bird.r > p.x && bird.x - bird.r < p.x + PIPE_W) {
+      if (bird.y - bird.r < p.top || bird.y + bird.r > p.top + PIPE_GAP) {
+        endGame(); return;
+      }
+    }
+  }
+
+  cloudOffset = (cloudOffset + 0.4) % W;
+}
+
+/* ---------- Drawing ---------- */
+function drawBackground() {
+  // sky gradient
+  const g = ctx.createLinearGradient(0, 0, 0, H);
+  g.addColorStop(0, '#4a1f6e');
+  g.addColorStop(0.45, '#ff5e7e');
+  g.addColorStop(0.75, '#ffc26b');
+  g.addColorStop(1, '#2dbcc9');
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, W, H);
+
+  // sun
+  const sunY = H * 0.62;
+  const sg = ctx.createRadialGradient(W / 2, sunY, 10, W / 2, sunY, 130);
+  sg.addColorStop(0, 'rgba(255, 240, 200, 1)');
+  sg.addColorStop(0.4, 'rgba(255, 180, 120, .9)');
+  sg.addColorStop(1, 'rgba(255, 120, 90, 0)');
+  ctx.fillStyle = sg;
+  ctx.fillRect(0, 0, W, H);
+
+  // clouds (parallax)
+  ctx.fillStyle = 'rgba(255,255,255,.55)';
+  for (let i = 0; i < 4; i++) {
+    const cx = (i * 140 - cloudOffset * 0.3) % (W + 200) - 50;
+    const cy = 60 + (i * 37) % 100;
+    drawCloud(cx, cy, 26);
+  }
+
+  // distant mountains
+  ctx.fillStyle = 'rgba(80, 40, 110, .55)';
+  ctx.beginPath();
+  ctx.moveTo(0, H * 0.7);
+  ctx.lineTo(60, H * 0.6);
+  ctx.lineTo(140, H * 0.68);
+  ctx.lineTo(220, H * 0.58);
+  ctx.lineTo(320, H * 0.66);
+  ctx.lineTo(W, H * 0.62);
+  ctx.lineTo(W, H);
+  ctx.lineTo(0, H);
+  ctx.closePath();
+  ctx.fill();
+
+  // ocean reflection
+  const og = ctx.createLinearGradient(0, H * 0.7, 0, H);
+  og.addColorStop(0, 'rgba(45, 188, 201, .9)');
+  og.addColorStop(1, 'rgba(13, 110, 116, 1)');
+  ctx.fillStyle = og;
+  ctx.fillRect(0, H * 0.7, W, H * 0.3);
+
+  // sun reflection on water
+  ctx.fillStyle = 'rgba(255, 220, 160, .35)';
+  ctx.beginPath();
+  ctx.ellipse(W / 2, H * 0.72, 60, 6, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  // sand strip
+  const sg2 = ctx.createLinearGradient(0, H - 60, 0, H);
+  sg2.addColorStop(0, '#ffd99c');
+  sg2.addColorStop(1, '#c98c52');
+  ctx.fillStyle = sg2;
+  ctx.fillRect(0, H - 60, W, 60);
+}
+
+function drawCloud(x, y, r) {
+  ctx.beginPath();
+  ctx.arc(x, y, r, 0, Math.PI * 2);
+  ctx.arc(x + r * 0.9, y + 4, r * 0.8, 0, Math.PI * 2);
+  ctx.arc(x - r * 0.9, y + 6, r * 0.7, 0, Math.PI * 2);
+  ctx.arc(x + r * 0.3, y - r * 0.6, r * 0.7, 0, Math.PI * 2);
+  ctx.fill();
+}
+
+function drawPipe(p) {
+  // Tiki torch / palm-trunk styled pipes
+  const x = p.x;
+  // top trunk
+  drawTrunk(x, 0, PIPE_W, p.top, true);
+  // bottom trunk
+  drawTrunk(x, p.top + PIPE_GAP, PIPE_W, H - 60 - (p.top + PIPE_GAP), false);
+}
+
+function drawTrunk(x, y, w, h, isTop) {
+  // trunk gradient
+  const g = ctx.createLinearGradient(x, 0, x + w, 0);
+  g.addColorStop(0, '#5a2e15');
+  g.addColorStop(0.5, '#8a4a25');
+  g.addColorStop(1, '#5a2e15');
+  ctx.fillStyle = g;
+  ctx.fillRect(x, y, w, h);
+
+  // ridges
+  ctx.strokeStyle = 'rgba(0,0,0,.25)';
+  ctx.lineWidth = 1.5;
+  const ridgeSpacing = 18;
+  const start = isTop ? y + h : y;
+  const dir = isTop ? -1 : 1;
+  for (let i = 0; i < Math.floor(h / ridgeSpacing); i++) {
+    const ry = start + dir * (i * ridgeSpacing + 8);
+    ctx.beginPath();
+    ctx.moveTo(x + 4, ry);
+    ctx.bezierCurveTo(x + w / 2, ry + 4 * dir, x + w / 2, ry + 4 * dir, x + w - 4, ry);
+    ctx.stroke();
+  }
+
+  // glowing tiki cap at the gap
+  const capY = isTop ? y + h - 14 : y;
+  const grd = ctx.createLinearGradient(x - 4, capY, x + w + 4, capY + 22);
+  grd.addColorStop(0, '#ffdf91');
+  grd.addColorStop(1, '#ff6b3d');
+  ctx.fillStyle = grd;
+  ctx.beginPath();
+  ctx.roundRect(x - 6, capY, w + 12, 22, 6);
+  ctx.fill();
+
+  // little flame on top cap (only on bottom pipe -> at top of bottom trunk)
+  if (!isTop) {
+    const fx = x + w / 2;
+    const fy = capY - 4;
+    ctx.fillStyle = '#ffd56b';
+    ctx.beginPath();
+    ctx.moveTo(fx, fy - 24);
+    ctx.quadraticCurveTo(fx + 10, fy - 10, fx + 4, fy);
+    ctx.quadraticCurveTo(fx, fy - 6, fx - 4, fy);
+    ctx.quadraticCurveTo(fx - 10, fy - 10, fx, fy - 24);
+    ctx.fill();
+    ctx.fillStyle = '#ff6b3d';
+    ctx.beginPath();
+    ctx.moveTo(fx, fy - 16);
+    ctx.quadraticCurveTo(fx + 5, fy - 6, fx + 2, fy - 1);
+    ctx.quadraticCurveTo(fx, fy - 4, fx - 2, fy - 1);
+    ctx.quadraticCurveTo(fx - 5, fy - 6, fx, fy - 16);
+    ctx.fill();
+  }
+}
+
+function drawBird() {
+  ctx.save();
+  ctx.translate(bird.x, bird.y);
+  ctx.rotate(bird.rot);
+
+  // body
+  const bg = ctx.createRadialGradient(-4, -4, 4, 0, 0, 22);
+  bg.addColorStop(0, '#3a2150');
+  bg.addColorStop(1, '#1a0d2b');
+  ctx.fillStyle = bg;
+  ctx.beginPath();
+  ctx.ellipse(0, 0, 22, 18, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  // belly
+  ctx.fillStyle = '#fff5e1';
+  ctx.beginPath();
+  ctx.ellipse(2, 4, 12, 9, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  // wing
+  ctx.save();
+  const wingAngle = -0.3 + bird.wing * -1.0;
+  ctx.rotate(wingAngle);
+  ctx.fillStyle = '#ff5e7e';
+  ctx.beginPath();
+  ctx.ellipse(-2, 2, 12, 7, 0, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = '#ffd56b';
+  ctx.beginPath();
+  ctx.ellipse(-4, 2, 6, 4, 0, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.restore();
+
+  // beak
+  ctx.fillStyle = '#ffb24a';
+  ctx.beginPath();
+  ctx.moveTo(18, -2);
+  ctx.lineTo(36, 2);
+  ctx.lineTo(18, 6);
+  ctx.closePath();
+  ctx.fill();
+  ctx.fillStyle = '#e07a1a';
+  ctx.beginPath();
+  ctx.moveTo(28, 2);
+  ctx.lineTo(36, 2);
+  ctx.lineTo(28, 5);
+  ctx.closePath();
+  ctx.fill();
+
+  // eye
+  ctx.fillStyle = '#fff';
+  ctx.beginPath();
+  ctx.arc(10, -6, 4.5, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = '#1a0d2b';
+  ctx.beginPath();
+  ctx.arc(11, -6, 2.4, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = '#fff';
+  ctx.beginPath();
+  ctx.arc(11.5, -6.5, 0.8, 0, Math.PI * 2);
+  ctx.fill();
+
+  // tail
+  ctx.fillStyle = '#ff5e7e';
+  ctx.beginPath();
+  ctx.moveTo(-18, -2);
+  ctx.lineTo(-30, -8);
+  ctx.lineTo(-26, 0);
+  ctx.lineTo(-30, 8);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.restore();
+}
+
+function draw() {
+  drawBackground();
+  for (const p of pipes) drawPipe(p);
+  drawBird();
+}
+
+function loop() {
+  if (!running) { draw(); return; }
+  update();
+  if (!running) { draw(); return; }
+  draw();
+  requestAnimationFrame(loop);
+}
+
+// roundRect polyfill safety
+if (!CanvasRenderingContext2D.prototype.roundRect) {
+  CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
+    if (typeof r === 'number') r = [r, r, r, r];
+    this.beginPath();
+    this.moveTo(x + r[0], y);
+    this.lineTo(x + w - r[1], y);
+    this.quadraticCurveTo(x + w, y, x + w, y + r[1]);
+    this.lineTo(x + w, y + h - r[2]);
+    this.quadraticCurveTo(x + w, y + h, x + w - r[2], y + h);
+    this.lineTo(x + r[3], y + h);
+    this.quadraticCurveTo(x, y + h, x, y + h - r[3]);
+    this.lineTo(x, y + r[0]);
+    this.quadraticCurveTo(x, y, x + r[0], y);
+    return this;
+  };
+}
+
+function flashScore() {
+  scoreDisplay.animate(
+    [{ transform: 'scale(1)', color: '#fff' }, { transform: 'scale(1.4)', color: '#ffd56b' }, { transform: 'scale(1)', color: '#fff' }],
+    { duration: 350, easing: 'ease-out' }
+  );
+}
+
+/* ============================================================
+   STAGE 3: Reveal
+============================================================ */
+function goToReveal() {
+  showStage('reveal');
+  // gentle confetti as the form opens
+  setTimeout(() => burstConfetti(40), 400);
+}
+
+document.getElementById('yesBtn').addEventListener('click', () => {
+  document.getElementById('yesOverlay').classList.add('active');
+  burstConfetti(120);
+  setInterval(() => burstConfetti(20), 700);
+});
+
+/* No button runs away on hover */
+const noBtn = document.getElementById('noBtn');
+function dodgeNo() {
+  const wrap = document.querySelector('.reveal-wrap').getBoundingClientRect();
+  const maxX = wrap.width - 140;
+  const maxY = wrap.height - 80;
+  const x = (Math.random() - 0.5) * Math.min(maxX, 400);
+  const y = (Math.random() - 0.5) * Math.min(maxY, 200);
+  noBtn.style.transform = `translate(${x}px, ${y}px) rotate(${(Math.random()-0.5)*20}deg)`;
+}
+noBtn.addEventListener('mouseenter', dodgeNo);
+noBtn.addEventListener('focus', dodgeNo);
+noBtn.addEventListener('touchstart', e => { e.preventDefault(); dodgeNo(); });
+noBtn.addEventListener('click', e => { e.preventDefault(); dodgeNo(); });
+
+/* ============================================================
+   Confetti / celebration
+============================================================ */
+function celebrate() {
+  burstConfetti(60);
+}
+function burstConfetti(n = 60) {
+  const colors = ['#ff3d6e', '#ffd56b', '#2dbcc9', '#fff', '#ff9966', '#9c4a8a'];
+  for (let i = 0; i < n; i++) {
+    const c = document.createElement('div');
+    c.style.position = 'fixed';
+    c.style.left = (50 + (Math.random() - 0.5) * 30) + 'vw';
+    c.style.top = '50vh';
+    c.style.width = (6 + Math.random() * 8) + 'px';
+    c.style.height = (8 + Math.random() * 12) + 'px';
+    c.style.background = colors[i % colors.length];
+    c.style.borderRadius = (Math.random() > 0.5 ? '50%' : '2px');
+    c.style.pointerEvents = 'none';
+    c.style.zIndex = '60';
+    c.style.opacity = '1';
+    c.style.transition = 'transform 1.6s cubic-bezier(.2,.7,.2,1), opacity 1.6s ease';
+    document.body.appendChild(c);
+    requestAnimationFrame(() => {
+      const dx = (Math.random() - 0.5) * window.innerWidth;
+      const dy = (Math.random() * 0.6 + 0.2) * window.innerHeight;
+      c.style.transform = `translate(${dx}px, ${dy}px) rotate(${Math.random() * 720}deg)`;
+      c.style.opacity = '0';
+    });
+    setTimeout(() => c.remove(), 1800);
+  }
+}
+
+/* initial paint */
+resetGame();
+</script>
+</body>
+</html>
