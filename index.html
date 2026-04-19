@@ -591,7 +591,7 @@
       <div>
         <div class="label">Score</div>
         <div class="score" id="scoreDisplay">0</div>
-        <div class="goal">Reach 10 to unlock the surprise</div>
+        <div class="goal">Reach 5 to unlock the surprise</div>
       </div>
       <div style="text-align:right">
         <div class="label">Best</div>
@@ -753,13 +753,13 @@ const overlayTitle = document.getElementById('overlayTitle');
 const overlayText  = document.getElementById('overlayText');
 const startBtn     = document.getElementById('startBtn');
 
-const GOAL = 10;
-const GRAVITY = 0.42;
-const FLAP   = -7.2;
-const PIPE_GAP = 165;
+const GOAL = 5;
+const GRAVITY = 0.46;
+const FLAP   = -7.4;
+const PIPE_GAP = 175;
 const PIPE_W   = 70;
-const PIPE_INTERVAL = 95; // frames
-const SPEED = 2.4;
+const PIPE_INTERVAL = 70; // frames
+const SPEED = 4.2;
 
 let bird, pipes, frame, score, best, running, started, gameOver;
 let cloudOffset = 0;
@@ -779,7 +779,7 @@ function resetGame() {
   progressBar.style.width = '0%';
   overlay.classList.remove('hidden');
   overlayTitle.textContent = 'Help the Toucan Reach the Tiki Bar';
-  overlayText.innerHTML = 'Tap, click, or press <strong>Space</strong> to flap. Soar through the palm gates and score <strong>' + GOAL + '</strong> to unlock Rashna\'s surprise.';
+  overlayText.innerHTML = 'Tap, click, or press <strong>Space</strong> to flap. Soar through <strong>' + GOAL + '</strong> palm gates to unlock Rashna\'s surprise.';
   startBtn.textContent = 'Start Flying';
   draw();
 }
