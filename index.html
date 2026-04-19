@@ -754,12 +754,12 @@ const overlayText  = document.getElementById('overlayText');
 const startBtn     = document.getElementById('startBtn');
 
 const GOAL = 5;
-const GRAVITY = 0.46;
-const FLAP   = -7.4;
-const PIPE_GAP = 175;
+const GRAVITY = 0.5;
+const FLAP   = -7.8;
+const PIPE_GAP = 180;
 const PIPE_W   = 70;
-const PIPE_INTERVAL = 70; // frames
-const SPEED = 4.2;
+const PIPE_INTERVAL = 55; // frames
+const SPEED = 6.2;
 
 let bird, pipes, frame, score, best, running, started, gameOver;
 let cloudOffset = 0;
@@ -853,7 +853,7 @@ function update() {
   bird.rot = Math.max(-0.5, Math.min(1.2, bird.vy / 12));
   bird.wing *= 0.85;
 
-  if (frame % PIPE_INTERVAL === 0) spawnPipe();
+  if (frame === 8 || (frame > 8 && (frame - 8) % PIPE_INTERVAL === 0)) spawnPipe();
 
   for (let i = pipes.length - 1; i >= 0; i--) {
     const p = pipes[i];
@@ -886,7 +886,7 @@ function update() {
     }
   }
 
-  cloudOffset = (cloudOffset + 0.4) % W;
+  cloudOffset = (cloudOffset + 1.2) % W;
 }
 
 /* ---------- Drawing ---------- */
